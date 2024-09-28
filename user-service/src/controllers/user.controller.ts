@@ -1,7 +1,6 @@
 import { Controller, HttpStatus, Inject } from '@nestjs/common';
-import { MessagePattern, ClientProxy } from '@nestjs/microservices';
+import { MessagePattern } from '@nestjs/microservices';
 import { CreateUserDto } from 'src/dtos/user.dto';
-import { ERROR } from 'src/enums/error.enum';
 import { IUserSearchResponse } from 'src/interfaces/user-search-response.interface';
 import { UserService } from 'src/services/user.service';
 
@@ -44,20 +43,11 @@ export class UserController {
 
             return result;
         } catch (error) {
-            if (error.code && error.code === ERROR.UserNotFound) {
-                result = {
-                    status: error.status,
-                    message: 'user_search_by_credentials_not_found',
-                    user: null,
-                };
-            }
-            else {
-                result = {
-                    status: error.status,
-                    message: 'user_search_by_credentials_internal-server-error',
-                    user: null,
-                };
-            }
+            result = {
+                status: error.status || 500,
+                message: 'user_search_by_credentials_internal-server-error',
+                user: null,
+            };
             return result;
         }
 
@@ -93,20 +83,11 @@ export class UserController {
 
             return result;
         } catch (error) {
-            if (error.code && error.code === ERROR.UserNotFound) {
-                result = {
-                    status: error.status,
-                    message: 'user_search_by_credentials_not_found',
-                    user: null,
-                };
-            }
-            else {
-                result = {
-                    status: error.status,
-                    message: 'user_search_by_credentials_internal-server-error',
-                    user: null,
-                };
-            }
+            result = {
+                status: error.status || 500,
+                message: 'user_search_by_credentials_internal-server-error',
+                user: null,
+            };
             return result;
         }
     }
@@ -133,27 +114,12 @@ export class UserController {
 
             return result;
         } catch (error) {
-            if (error.code && error.code === ERROR.UserNotFound) {
-                result = {
-                    status: error.status,
-                    message: 'user_search_by_credentials_not_found',
-                    user: null,
-                };
-            }
-            else if (error.code && error.code === ERROR.Duplicate) {
-                result = {
-                    status: error.status,
-                    message: 'user_search_by_credentials_duplicate',
-                    user: null,
-                };
-            }
-            else {
-                result = {
-                    status: error.status,
-                    message: 'user_search_by_credentials_internal-server-error',
-                    user: null,
-                };
-            }
+            result = {
+                status: error.status || 500,
+                message: 'user_search_by_credentials_internal-server-error',
+                user: null,
+            };
+
             return result;
         }
 
