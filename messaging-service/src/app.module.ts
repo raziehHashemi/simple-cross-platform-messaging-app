@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
-import configuration from './config'
+import configuration from './config';
 import { TypeOrmModule, TypeOrmModuleOptions } from '@nestjs/typeorm';
 import { Message } from './entities/message.entity';
 import { MessageController } from './controllers/message.controller';
@@ -11,7 +11,7 @@ import { MessageService } from './services/message.service';
 	imports: [
 		ConfigModule.forRoot({
 			isGlobal: true,
-			load: [configuration]
+			load: [configuration],
 		}),
 		TypeOrmModule.forRootAsync({
 			imports: [ConfigModule],
@@ -28,11 +28,13 @@ import { MessageService } from './services/message.service';
 				entities: [Message],
 			}),
 		}),
+		TypeOrmModule.forFeature([Message]),
 	],
 	controllers: [MessageController],
 	providers: [
 		MessageRepository,
-		MessageService
+		MessageService,
 	],
+	exports: [MessageService, MessageRepository],
 })
-export class MessageModule { }
+export class AppModule { }

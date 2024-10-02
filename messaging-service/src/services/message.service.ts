@@ -16,7 +16,7 @@ export class MessageService {
     ) {
         this.fileStoragePath = path.join(__dirname, this.configService.get('storage').directory, 'storage');
         if (!fs.existsSync(this.fileStoragePath)) {
-            fs.mkdirSync(this.fileStoragePath);
+            fs.mkdirSync(this.fileStoragePath, { recursive: true });
         }
     }
 

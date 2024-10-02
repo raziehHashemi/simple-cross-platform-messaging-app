@@ -2,7 +2,7 @@ import { Module } from '@nestjs/common';
 import { TypeOrmModule, TypeOrmModuleOptions } from '@nestjs/typeorm';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { User } from './entities/user.entity';
-import configuration from './config'
+import configuration from './config';
 import { UserController } from './controllers/user.controller';
 import { UserRepository } from './repositories/user.repositpry';
 import { UserService } from './services/user.service';
@@ -11,7 +11,7 @@ import { UserService } from './services/user.service';
 	imports: [
 		ConfigModule.forRoot({
 			isGlobal: true,
-			load: [configuration]
+			load: [configuration],
 		}),
 		TypeOrmModule.forRootAsync({
 			imports: [ConfigModule],
@@ -28,11 +28,13 @@ import { UserService } from './services/user.service';
 				entities: [User],
 			}),
 		}),
+		TypeOrmModule.forFeature([User])
 	],
 	controllers: [UserController],
 	providers: [
 		UserRepository,
-		UserService
+		UserService,
 	],
+	exports: [UserService, UserRepository],
 })
-export class UserModule { }
+export class AppModule {}
